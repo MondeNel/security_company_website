@@ -53,11 +53,12 @@ export const TRAINING = [
 
 export const VALUES = ['Integrity','Excellence','Ethical','Innovation','Reliability','Honesty','Consistency']
 
+// FIXED: Changed "Khathu" to "Kathu"
 export const OFFICES = [
   { city: 'Gauteng',           address: '30 Melrose Arch Boulevard, Mezzanine Floor, 2196'                     },
   { city: 'Kimberley',         address: '69 Memorial Road, Monument Heights, DSC Office Park, 8301'            },
   { city: 'Prieska & Upington',address: '20 Stewarts Street, Prieska / 6 Coppenhagen St, Upington'            },
-  { city: 'Khathu',            address: 'Dynlog Building Office 5, New Office Development 4340, Kameeldoring' },
+  { city: 'Kathu',             address: 'Dynlog Building Office 5, New Office Development 4340, Kameeldoring' },
 ]
 
 export const TICKER_ITEMS = [

@@ -6,6 +6,7 @@ import Services       from './components/Services'
 import About          from './components/About'
 import WhyUs          from './components/WhyUs'
 import Training       from './components/Training'
+import Founder        from './components/Founder'  
 import CTA            from './components/CTA'
 import Offices        from './components/Offices'
 import Footer         from './components/Footer'
@@ -22,6 +23,7 @@ export default function App() {
       <About />
       <WhyUs />
       <Training />
+      <Founder />       
       <CTA />
       <Offices />
       <Footer />

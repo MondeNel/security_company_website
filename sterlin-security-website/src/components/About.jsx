@@ -19,7 +19,7 @@ const PILLARS = [
   { 
     Icon: Globe, 
     title: 'NATIONAL COVERAGE', 
-    body: 'Offices in Gauteng, Kimberley, Prieska, Upington, and Khathu — we go where you are.',
+    body: 'Offices in Gauteng, Kimberley, Prieska, Upington, and Kathu — we go where you are.',
     gradient: 'linear-gradient(135deg, #2BA8D8, #1A7FA8)',
     color: '#2BA8D8'
   },

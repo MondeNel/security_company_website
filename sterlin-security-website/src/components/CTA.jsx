@@ -1,4 +1,5 @@
-import { Phone, Mail } from 'lucide-react'
+import { useState } from 'react'
+import { Phone, Mail, MessageCircle, ArrowRight, Shield, Sparkles, Send } from 'lucide-react'
 import { CONTACT } from '../constants/data'
 
 const WaIcon = () => (
@@ -8,60 +9,205 @@ const WaIcon = () => (
 )
 
 export default function CTA() {
+  const [hoveredBtn, setHoveredBtn] = useState(null)
   const waUrl = `https://wa.me/${CONTACT.whatsapp}?text=${encodeURIComponent(CONTACT.whatsappMessage)}`
 
   return (
-    <section className="cta-section" id="contact">
-      <div style={{ position:'absolute', right:'-3%', top:'50%', transform:'translateY(-50%)',
-                    fontSize:300, opacity:0.05, userSelect:'none', pointerEvents:'none',
-                    color:'#050C14', lineHeight:1 }}>⬡</div>
+    <section className="cta-section" id="contact" style={{
+      position: 'relative',
+      background: 'linear-gradient(135deg, #2BA8D8 0%, #1A7FA8 100%)',
+      padding: '100px 0',
+      overflow: 'hidden',
+    }}>
+      {/* Decorative elements */}
+      <div style={{
+        position: 'absolute',
+        top: '-50%',
+        right: '-10%',
+        width: '500px',
+        height: '500px',
+        background: 'radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%)',
+        borderRadius: '50%',
+        pointerEvents: 'none',
+      }} />
+      <div style={{
+        position: 'absolute',
+        bottom: '-30%',
+        left: '-5%',
+        width: '400px',
+        height: '400px',
+        background: 'radial-gradient(circle, rgba(5,12,20,0.08) 0%, transparent 70%)',
+        borderRadius: '50%',
+        pointerEvents: 'none',
+      }} />
+      
+      <div style={{
+        position: 'absolute',
+        inset: 0,
+        backgroundImage: 'repeating-linear-gradient(45deg, transparent, transparent 20px, rgba(255,255,255,0.04) 20px, rgba(255,255,255,0.04) 21px)',
+        pointerEvents: 'none',
+      }} />
 
-      <div style={{ maxWidth:1200, margin:'0 auto', padding:'0 32px',
-                    position:'relative', zIndex:1, textAlign:'center' }}>
-        <div style={{ fontFamily:'Barlow Condensed,sans-serif', fontSize:'0.76rem',
-                      letterSpacing:'0.25em', textTransform:'uppercase',
-                      color:'rgba(5,12,20,0.55)', marginBottom:16 }}>
-          ◆ Ready to Secure Your Business
+      <div style={{ 
+        maxWidth: 900, 
+        margin: '0 auto', 
+        padding: '0 32px',
+        position: 'relative', 
+        zIndex: 1, 
+        textAlign: 'center' 
+      }}>
+        <Shield size={48} color="rgba(5,12,20,0.15)" style={{ marginBottom: 16 }} />
+        
+        <div style={{ 
+          fontFamily: 'Barlow Condensed,sans-serif', 
+          fontSize: '0.8rem',
+          letterSpacing: '0.25em', 
+          textTransform: 'uppercase',
+          color: 'rgba(5,12,20,0.55)', 
+          marginBottom: 16 
+        }}>
+          ◆ READY TO SECURE YOUR BUSINESS
         </div>
-        <h2 style={{ fontFamily:'Oswald,sans-serif', fontWeight:700, color:'#050C14',
-                     textTransform:'uppercase', lineHeight:1.05, marginBottom:20,
-                     fontSize:'clamp(2.2rem,5vw,4rem)' }}>
-          Get a Free Security<br />Risk Assessment
+        
+        <h2 style={{ 
+          fontFamily: 'Oswald,sans-serif', 
+          fontWeight: 700, 
+          color: '#050C14',
+          textTransform: 'uppercase', 
+          lineHeight: 1.05, 
+          marginBottom: 20,
+          fontSize: 'clamp(2.2rem, 5vw, 3.8rem)',
+        }}>
+          GET A FREE SECURITY<br />RISK ASSESSMENT
         </h2>
-        <p style={{ color:'rgba(5,12,20,0.62)', fontSize:'1rem', maxWidth:460,
-                    margin:'0 auto 44px', lineHeight:1.75 }}>
+        
+        <p style={{ 
+          color: 'rgba(5,12,20,0.65)', 
+          fontSize: '1.05rem', 
+          maxWidth: 520,
+          margin: '0 auto 44px', 
+          lineHeight: 1.75 
+        }}>
           Speak to our specialists today. We'll evaluate your current exposure
           and propose a tailored, cost-effective solution.
         </p>
 
-        <div style={{ display:'flex', gap:16, justifyContent:'center', flexWrap:'wrap' }}>
-          <a href={`tel:${CONTACT.phone}`} className="btn-primary"
-             style={{ background:'#050C14', color:'#2BA8D8' }}>
-            <Phone size={16} strokeWidth={2} /> Call {CONTACT.phone}
+        {/* Contact Buttons */}
+        <div style={{ display: 'flex', gap: 18, justifyContent: 'center', flexWrap: 'wrap' }}>
+          {/* Call Button */}
+          <a 
+            href={`tel:${CONTACT.phone}`} 
+            onMouseEnter={() => setHoveredBtn('call')}
+            onMouseLeave={() => setHoveredBtn(null)}
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 12,
+              padding: '16px 34px',
+              background: hoveredBtn === 'call' ? '#050C14' : '#0A1828',
+              border: 'none',
+              borderRadius: '50px',
+              color: '#fff',
+              fontFamily: 'Barlow Condensed, sans-serif',
+              fontSize: '0.9rem',
+              fontWeight: 700,
+              letterSpacing: '0.12em',
+              textTransform: 'uppercase',
+              textDecoration: 'none',
+              cursor: 'pointer',
+              transition: 'all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1)',
+              transform: hoveredBtn === 'call' ? 'translateY(-3px) scale(1.02)' : 'translateY(0) scale(1)',
+              boxShadow: hoveredBtn === 'call' ? '0 8px 25px rgba(0,0,0,0.2)' : '0 4px 15px rgba(0,0,0,0.1)',
+            }}
+          >
+            <Phone size={18} />
+            <span>CALL {CONTACT.phone}</span>
           </a>
 
-          <a href={waUrl} target="_blank" rel="noopener noreferrer"
-             style={{ display:'inline-flex', alignItems:'center', gap:10,
-                      background:'#25D366', color:'#fff',
-                      fontFamily:'Barlow Condensed,sans-serif', fontWeight:700,
-                      fontSize:'0.88rem', letterSpacing:'0.15em', textTransform:'uppercase',
-                      padding:'15px 36px', textDecoration:'none',
-                      clipPath:'polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,12px 100%,0 calc(100% - 12px))',
-                      transition:'background 0.25s, transform 0.25s' }}
-             onMouseEnter={e => { e.currentTarget.style.background='#1ebe59'; e.currentTarget.style.transform='translateY(-2px)' }}
-             onMouseLeave={e => { e.currentTarget.style.background='#25D366'; e.currentTarget.style.transform='translateY(0)' }}>
-            <WaIcon /> WhatsApp Us
+          {/* WhatsApp Button */}
+          <a 
+            href={waUrl} 
+            target="_blank" 
+            rel="noopener noreferrer"
+            onMouseEnter={() => setHoveredBtn('whatsapp')}
+            onMouseLeave={() => setHoveredBtn(null)}
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 12,
+              padding: '16px 34px',
+              background: hoveredBtn === 'whatsapp' ? '#1ebe59' : '#25D366',
+              border: 'none',
+              borderRadius: '50px',
+              color: '#fff',
+              fontFamily: 'Barlow Condensed, sans-serif',
+              fontSize: '0.9rem',
+              fontWeight: 700,
+              letterSpacing: '0.12em',
+              textTransform: 'uppercase',
+              textDecoration: 'none',
+              cursor: 'pointer',
+              transition: 'all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1)',
+              transform: hoveredBtn === 'whatsapp' ? 'translateY(-3px) scale(1.02)' : 'translateY(0) scale(1)',
+              boxShadow: hoveredBtn === 'whatsapp' ? '0 8px 25px rgba(37,211,102,0.3)' : '0 4px 15px rgba(37,211,102,0.2)',
+            }}
+          >
+            <WaIcon />
+            <span>WHATSAPP US</span>
           </a>
 
-          <a href={`mailto:${CONTACT.email}`}
-             style={{ display:'inline-flex', alignItems:'center', gap:10,
-                      background:'transparent', color:'#050C14',
-                      fontFamily:'Barlow Condensed,sans-serif', fontWeight:600,
-                      fontSize:'0.88rem', letterSpacing:'0.15em', textTransform:'uppercase',
-                      padding:'14px 32px', border:'2px solid rgba(5,12,20,0.35)',
-                      textDecoration:'none', transition:'border-color 0.25s' }}>
-            <Mail size={16} strokeWidth={2} /> Email Us
+          {/* Email Button */}
+          <a 
+            href={`mailto:${CONTACT.email}`}
+            onMouseEnter={() => setHoveredBtn('email')}
+            onMouseLeave={() => setHoveredBtn(null)}
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 12,
+              padding: '15px 32px',
+              background: 'transparent',
+              border: '2px solid rgba(5,12,20,0.4)',
+              borderRadius: '50px',
+              color: '#050C14',
+              fontFamily: 'Barlow Condensed, sans-serif',
+              fontSize: '0.9rem',
+              fontWeight: 600,
+              letterSpacing: '0.12em',
+              textTransform: 'uppercase',
+              textDecoration: 'none',
+              cursor: 'pointer',
+              transition: 'all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1)',
+              transform: hoveredBtn === 'email' ? 'translateY(-3px)' : 'translateY(0)',
+              background: hoveredBtn === 'email' ? 'rgba(5,12,20,0.05)' : 'transparent',
+              borderColor: hoveredBtn === 'email' ? '#050C14' : 'rgba(5,12,20,0.4)',
+            }}
+          >
+            <Mail size={18} />
+            <span>EMAIL US</span>
           </a>
+        </div>
+
+        {/* Trust indicator */}
+        <div style={{
+          marginTop: 48,
+          display: 'flex',
+          justifyContent: 'center',
+          gap: 24,
+          flexWrap: 'wrap',
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <Sparkles size={14} color="#050C14" opacity={0.5} />
+            <span style={{ fontSize: '0.7rem', color: '#050C14', opacity: 0.6 }}>Free Consultation</span>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <Sparkles size={14} color="#050C14" opacity={0.5} />
+            <span style={{ fontSize: '0.7rem', color: '#050C14', opacity: 0.6 }}>No Obligation</span>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <Sparkles size={14} color="#050C14" opacity={0.5} />
+            <span style={{ fontSize: '0.7rem', color: '#050C14', opacity: 0.6 }}>24/7 Support</span>
+          </div>
         </div>
       </div>
     </section>

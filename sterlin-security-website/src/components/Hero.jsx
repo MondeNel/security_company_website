@@ -1,16 +1,92 @@
 import { useState, useEffect } from 'react'
-import { Phone, MapPin, BadgeCheck, ArrowRight, Shield, Clock, Award } from 'lucide-react'
+import { Phone, MapPin, BadgeCheck, ArrowRight, Shield, Clock, Award, Globe, Sparkles, TrendingUp } from 'lucide-react'
 import { CONTACT } from '../constants/data'
 
-const TRUST = [
-  { Icon: Phone,      label: CONTACT.phone,  sub: '24/7 Hotline', color: '#25D366' },
-  { Icon: MapPin,     label: '4 Provinces',  sub: 'National Reach', color: '#2BA8D8' },
-  { Icon: BadgeCheck, label: 'PSIRA',        sub: 'Certified & Compliant', color: '#2BA8D8' },
+const STATS_BLOCKS = [
+  { 
+    Icon: Phone, 
+    value: "073 096 8188", 
+    label: "24/7 HOTLINE",
+    highlight: true,
+    color: "#25D366"
+  },
+  { 
+    Icon: Globe, 
+    value: "4 Provinces", 
+    label: "NATIONAL REACH",
+    detail: "Gauteng • Northern Cape • Limpopo • Free State",
+    color: "#2BA8D8"
+  },
+  { 
+    Icon: BadgeCheck, 
+    value: "PSIRA", 
+    label: "CERTIFIED & COMPLIANT",
+    detail: "Registered & Accredited",
+    color: "#2BA8D8"
+  },
+]
+
+const MODERN_STATS = [
+  { 
+    Icon: Clock, 
+    value: "2014", 
+    prefix: "Est.",
+    label: "Years Excellence",
+    suffix: "+",
+    displayValue: "10",
+    description: "Years of Trusted Service",
+    color: "#2BA8D8"
+  },
+  { 
+    Icon: Award, 
+    value: "100", 
+    suffix: "%",
+    label: "Black-Owned",
+    description: "BEE Level 1 Contributor",
+    color: "#2BA8D8",
+    highlight: true
+  },
+  { 
+    Icon: BadgeCheck, 
+    value: "PsIRA", 
+    label: "Registered",
+    description: "Fully Compliant • Act 56 of 2001",
+    color: "#2BA8D8"
+  },
 ]
 
 export default function Hero() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
-  const [isHovering, setIsHovering] = useState(false)
+  const [hoveredBtn, setHoveredBtn] = useState(null)
+  const [hoveredStat, setHoveredStat] = useState(null)
+  const [displayText, setDisplayText] = useState('')
+  const [isTyping, setIsTyping] = useState(true)
+  const [showCursor, setShowCursor] = useState(true)
+
+  const fullText = "GUARDING WHAT MATTERS MOST"
+  
+  useEffect(() => {
+    let currentIndex = 0
+    const typingInterval = setInterval(() => {
+      if (currentIndex <= fullText.length) {
+        setDisplayText(fullText.slice(0, currentIndex))
+        currentIndex++
+      } else {
+        clearInterval(typingInterval)
+        setIsTyping(false)
+      }
+    }, 80) // Speed of typing (milliseconds per character)
+
+    return () => clearInterval(typingInterval)
+  }, [])
+
+  // Blinking cursor effect
+  useEffect(() => {
+    const cursorInterval = setInterval(() => {
+      setShowCursor(prev => !prev)
+    }, 500)
+    return () => clearInterval(cursorInterval)
+  }, [])
 
   useEffect(() => {
     const handleMouseMove = (e) => {
@@ -19,6 +95,10 @@ export default function Hero() {
     window.addEventListener('mousemove', handleMouseMove)
     return () => window.removeEventListener('mousemove', handleMouseMove)
   }, [])
+
+  // Split the typed text into two lines for display
+  const firstLine = displayText.length > 16 ? displayText.slice(0, 16) : displayText
+  const secondLine = displayText.length > 16 ? displayText.slice(16) : ''
 
   return (
     <section className="hero-bg" id="home" style={{ position: 'relative', overflow: 'hidden' }}>
@@ -87,86 +167,74 @@ export default function Hero() {
         position: 'relative', 
         zIndex: 2 
       }}>
-        <div style={{ maxWidth: 680 }}>
+        <div style={{ maxWidth: 720 }}>
 
-          {/* Formerly known badge - animated */}
-          <div 
-            className="fade-up delay-100"
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: 8,
-              marginBottom: 28,
-              background: 'rgba(43,168,216,0.12)',
-              backdropFilter: 'blur(10px)',
-              border: '1px solid rgba(43,168,216,0.35)',
-              borderRadius: '50px',
-              color: '#2BA8D8',
-              fontSize: '0.7rem',
-              letterSpacing: '0.22em',
+          {/* Typing Animation Heading - SMALLER TEXT */}
+          <div style={{ marginBottom: 32 }}>
+            <div style={{
+              fontFamily: 'Oswald,sans-serif',
+              fontWeight: 700,
+              fontSize: 'clamp(2.5rem, 5vw, 4rem)',
+              lineHeight: 1.1,
               textTransform: 'uppercase',
-              padding: '8px 20px',
-              fontFamily: 'Barlow Condensed,sans-serif',
-              transition: 'all 0.3s ease',
-            }}
-            onMouseEnter={e => {
-              e.currentTarget.style.transform = 'translateY(-2px)'
-              e.currentTarget.style.background = 'rgba(43,168,216,0.2)'
-              e.currentTarget.style.borderColor = 'rgba(43,168,216,0.6)'
-            }}
-            onMouseLeave={e => {
-              e.currentTarget.style.transform = 'translateY(0)'
-              e.currentTarget.style.background = 'rgba(43,168,216,0.12)'
-              e.currentTarget.style.borderColor = 'rgba(43,168,216,0.35)'
-            }}
-          >
-            <span style={{ width: 6, height: 6, background: '#2BA8D8', borderRadius: '50%', display: 'inline-block' }} />
-            Formerly Masicebise (MBS) Protection Services
+              letterSpacing: '-0.01em',
+              color: '#fff',
+              minHeight: '120px',
+            }}>
+              {displayText ? (
+                <>
+                  {displayText.includes('GUARDING WHAT') ? (
+                    <>
+                      <div>GUARDING WHAT</div>
+                      <div style={{ color: '#2BA8D8', position: 'relative', display: 'inline-block' }}>
+                        {displayText.replace('GUARDING WHAT', '').trim() || 'MATTERS MOST'}
+                        {isTyping && showCursor && (
+                          <span style={{
+                            position: 'absolute',
+                            right: -8,
+                            top: 0,
+                            width: 3,
+                            height: '100%',
+                            backgroundColor: '#2BA8D8',
+                            animation: 'blink 0.8s infinite',
+                          }} />
+                        )}
+                      </div>
+                    </>
+                  ) : (
+                    displayText
+                  )}
+                </>
+              ) : (
+                <>
+                  <div>GUARDING WHAT</div>
+                  <div style={{ color: '#2BA8D8' }}>
+                    MATTERS MOST
+                    <span style={{
+                      display: 'inline-block',
+                      width: 3,
+                      height: '1em',
+                      backgroundColor: '#2BA8D8',
+                      marginLeft: 4,
+                      animation: 'blink 0.8s infinite',
+                    }} />
+                  </div>
+                </>
+              )}
+            </div>
           </div>
 
-          {/* Main heading with animated underline */}
-          <h1 className="fade-up delay-200" style={{
-            fontFamily: 'Oswald,sans-serif',
-            fontWeight: 700,
-            fontSize: 'clamp(3rem, 8vw, 6.2rem)',
-            lineHeight: 0.94,
-            textTransform: 'uppercase',
-            letterSpacing: '-0.02em',
-            color: '#fff',
-            position: 'relative',
-            display: 'inline-block',
-          }}>
-            Guarding What<br />
-            <span style={{ 
-              color: '#2BA8D8',
-              position: 'relative',
-              display: 'inline-block',
-            }}>
-              Matters Most
-              <span style={{
-                position: 'absolute',
-                bottom: -8,
-                left: 0,
-                width: '0%',
-                height: '4px',
-                background: 'linear-gradient(90deg, #2BA8D8, #3DC4F8, #2BA8D8)',
-                animation: 'underlineExpand 1s ease forwards 0.5s',
-                borderRadius: '2px',
-              }} />
-            </span>
-          </h1>
-
-          {/* Description with soft styling */}
+          {/* Description */}
           <p className="fade-up delay-300" style={{
-            fontSize: '1.05rem',
+            fontSize: '1rem',
             color: '#7A9BB5',
-            maxWidth: 500,
-            lineHeight: 1.75,
+            maxWidth: 560,
+            lineHeight: 1.7,
             fontWeight: 300,
-            margin: '28px 0 40px',
+            margin: '20px 0 32px',
             background: 'rgba(0,0,0,0.2)',
-            padding: '16px 20px',
-            borderRadius: '12px',
+            padding: '16px 22px',
+            borderRadius: '14px',
             backdropFilter: 'blur(5px)',
             borderLeft: '3px solid #2BA8D8',
           }}>
@@ -175,151 +243,237 @@ export default function Hero() {
             and commercial clients since 2014.
           </p>
 
-          {/* CTA Buttons with modern styling */}
-          <div className="fade-up delay-400" style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
+          {/* Modern CTA Buttons */}
+          <div className="fade-up delay-400" style={{ 
+            display: 'flex', 
+            gap: 18, 
+            flexWrap: 'wrap', 
+            marginBottom: 48,
+            alignItems: 'center',
+          }}>
+            {/* Primary CTA - Get Free Assessment */}
             <a 
               href="#contact" 
-              className="btn-primary"
+              className="cta-primary"
+              onMouseEnter={() => setHoveredBtn('primary')}
+              onMouseLeave={() => setHoveredBtn(null)}
               style={{
                 position: 'relative',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 10,
+                padding: '14px 32px',
+                background: hoveredBtn === 'primary' 
+                  ? 'linear-gradient(135deg, #3DC4F8, #2BA8D8)' 
+                  : 'linear-gradient(135deg, #2BA8D8, #1A7FA8)',
+                border: 'none',
+                borderRadius: '50px',
+                color: '#fff',
+                fontFamily: 'Barlow Condensed, sans-serif',
+                fontSize: '0.9rem',
+                fontWeight: 700,
+                letterSpacing: '0.12em',
+                textTransform: 'uppercase',
+                textDecoration: 'none',
+                cursor: 'pointer',
                 overflow: 'hidden',
-                transition: 'all 0.3s ease',
-              }}
-              onMouseEnter={e => {
-                e.currentTarget.style.transform = 'translateY(-3px) scale(1.02)'
-                e.currentTarget.style.boxShadow = '0 10px 30px rgba(43,168,216,0.3)'
-              }}
-              onMouseLeave={e => {
-                e.currentTarget.style.transform = 'translateY(0) scale(1)'
-                e.currentTarget.style.boxShadow = 'none'
+                transition: 'all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1)',
+                transform: hoveredBtn === 'primary' ? 'translateY(-3px) scale(1.02)' : 'translateY(0) scale(1)',
+                boxShadow: hoveredBtn === 'primary' 
+                  ? '0 10px 25px rgba(43,168,216,0.35)' 
+                  : '0 4px 15px rgba(43,168,216,0.2)',
               }}
             >
-              Get a Free Assessment 
-              <ArrowRight size={16} style={{ transition: 'transform 0.3s ease' }} />
+              <div style={{
+                position: 'absolute',
+                top: 0,
+                left: '-100%',
+                width: '100%',
+                height: '100%',
+                background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent)',
+                transition: 'left 0.6s ease',
+                ...(hoveredBtn === 'primary' && { left: '100%' }),
+              }} />
+              
+              <Sparkles size={16} style={{
+                transition: 'transform 0.3s ease',
+                transform: hoveredBtn === 'primary' ? 'rotate(15deg) scale(1.1)' : 'rotate(0)',
+              }} />
+              <span>GET A FREE ASSESSMENT</span>
+              <ArrowRight size={16} style={{
+                transition: 'transform 0.3s ease',
+                transform: hoveredBtn === 'primary' ? 'translateX(6px)' : 'translateX(0)',
+              }} />
             </a>
+
+            {/* Secondary CTA - Our Services */}
             <a 
               href="#services" 
-              className="btn-outline"
+              className="cta-secondary"
+              onMouseEnter={() => setHoveredBtn('secondary')}
+              onMouseLeave={() => setHoveredBtn(null)}
               style={{
-                transition: 'all 0.3s ease',
-              }}
-              onMouseEnter={e => {
-                e.currentTarget.style.transform = 'translateY(-3px)'
-                e.currentTarget.style.background = 'rgba(43,168,216,0.1)'
-              }}
-              onMouseLeave={e => {
-                e.currentTarget.style.transform = 'translateY(0)'
-                e.currentTarget.style.background = 'transparent'
+                position: 'relative',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 10,
+                padding: '13px 30px',
+                background: hoveredBtn === 'secondary' 
+                  ? 'rgba(255,255,255,0.1)' 
+                  : 'transparent',
+                border: '2px solid rgba(43,168,216,0.5)',
+                borderRadius: '50px',
+                color: hoveredBtn === 'secondary' ? '#fff' : '#9BAFC0',
+                fontFamily: 'Barlow Condensed, sans-serif',
+                fontSize: '0.9rem',
+                fontWeight: 600,
+                letterSpacing: '0.12em',
+                textTransform: 'uppercase',
+                textDecoration: 'none',
+                cursor: 'pointer',
+                overflow: 'hidden',
+                transition: 'all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1)',
+                transform: hoveredBtn === 'secondary' ? 'translateY(-3px)' : 'translateY(0)',
+                boxShadow: hoveredBtn === 'secondary' 
+                  ? '0 8px 20px rgba(43,168,216,0.15)' 
+                  : 'none',
               }}
             >
-              Our Services
+              <TrendingUp size={16} style={{
+                transition: 'all 0.3s ease',
+                color: hoveredBtn === 'secondary' ? '#3DC4F8' : '#6A8A9F',
+              }} />
+              <span>OUR SERVICES</span>
+              <div style={{
+                position: 'absolute',
+                bottom: 0,
+                left: '10%',
+                width: '80%',
+                height: '2px',
+                background: 'linear-gradient(90deg, transparent, #2BA8D8, #3DC4F8, #2BA8D8, transparent)',
+                transform: hoveredBtn === 'secondary' ? 'scaleX(1)' : 'scaleX(0)',
+                transition: 'transform 0.3s ease',
+              }} />
             </a>
           </div>
 
-          {/* Trust indicators with animated cards */}
+          {/* Stats Blocks */}
           <div className="fade-up delay-400"
                style={{ 
-                 display: 'flex', 
-                 gap: 40, 
-                 marginTop: 64, 
-                 flexWrap: 'wrap',
+                 display: 'grid',
+                 gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
+                 gap: 20,
+                 marginBottom: 40,
                }}>
-            {TRUST.map(({ Icon, label, sub, color }) => (
+            {STATS_BLOCKS.map(({ Icon, value, label, detail, color, highlight }) => (
               <div 
                 key={label} 
                 style={{ 
-                  display: 'flex', 
-                  alignItems: 'center', 
+                  display: 'flex',
+                  alignItems: 'center',
                   gap: 14,
-                  background: 'rgba(255,255,255,0.03)',
-                  padding: '12px 20px',
-                  borderRadius: '12px',
+                  background: highlight ? 'linear-gradient(135deg, rgba(37,211,102,0.1), rgba(37,211,102,0.05))' : 'rgba(255,255,255,0.03)',
+                  padding: '16px 20px',
+                  borderRadius: '16px',
                   backdropFilter: 'blur(10px)',
-                  border: '1px solid rgba(255,255,255,0.05)',
+                  border: `1px solid ${highlight ? 'rgba(37,211,102,0.2)' : 'rgba(255,255,255,0.05)'}`,
                   transition: 'all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1)',
                   cursor: 'pointer',
                 }}
                 onMouseEnter={e => {
-                  e.currentTarget.style.transform = 'translateY(-5px)'
-                  e.currentTarget.style.background = 'rgba(43,168,216,0.1)'
-                  e.currentTarget.style.borderColor = 'rgba(43,168,216,0.3)'
+                  e.currentTarget.style.transform = 'translateY(-4px)'
+                  e.currentTarget.style.background = highlight ? 'linear-gradient(135deg, rgba(37,211,102,0.15), rgba(37,211,102,0.08))' : 'rgba(43,168,216,0.08)'
                 }}
                 onMouseLeave={e => {
                   e.currentTarget.style.transform = 'translateY(0)'
-                  e.currentTarget.style.background = 'rgba(255,255,255,0.03)'
-                  e.currentTarget.style.borderColor = 'rgba(255,255,255,0.05)'
+                  e.currentTarget.style.background = highlight ? 'linear-gradient(135deg, rgba(37,211,102,0.1), rgba(37,211,102,0.05))' : 'rgba(255,255,255,0.03)'
                 }}
               >
                 <div style={{
-                  width: 44,
-                  height: 44,
+                  width: 48,
+                  height: 48,
                   background: `radial-gradient(circle at 30% 30%, ${color}20, transparent)`,
-                  borderRadius: '12px',
+                  borderRadius: '14px',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                 }}>
-                  <Icon size={22} color={color} strokeWidth={1.8} />
+                  <Icon size={24} color={color} strokeWidth={1.8} />
                 </div>
                 <div>
                   <div style={{ 
-                    fontFamily: 'Barlow Condensed,sans-serif', 
+                    fontFamily: 'Oswald,sans-serif',
                     fontWeight: 700,
-                    fontSize: '1rem', 
-                    color: '#E0EAF3', 
-                    letterSpacing: '0.05em' 
+                    fontSize: '1.3rem',
+                    color: highlight ? '#25D366' : '#fff',
+                    letterSpacing: '0.02em',
+                    lineHeight: 1.2,
+                  }}>
+                    {value}
+                  </div>
+                  <div style={{ 
+                    fontSize: '0.65rem', 
+                    color: '#4A7A9B',
+                    letterSpacing: '0.12em', 
+                    textTransform: 'uppercase',
+                    marginTop: 2,
                   }}>
                     {label}
                   </div>
-                  <div style={{ 
-                    fontSize: '0.7rem', 
-                    color: '#4A7A9B',
-                    letterSpacing: '0.12em', 
-                    textTransform: 'uppercase' 
-                  }}>
-                    {sub}
-                  </div>
+                  {detail && (
+                    <div style={{ 
+                      fontSize: '0.6rem', 
+                      color: '#6A8A9F',
+                      marginTop: 4,
+                    }}>
+                      {detail}
+                    </div>
+                  )}
                 </div>
               </div>
             ))}
           </div>
 
-          {/* Additional Stats Row */}
+          {/* Additional Stats */}
           <div className="fade-up delay-400"
                style={{
                  display: 'flex',
-                 gap: 30,
-                 marginTop: 40,
-                 paddingTop: 30,
+                 gap: 28,
+                 paddingTop: 20,
                  borderTop: '1px solid rgba(255,255,255,0.06)',
                  flexWrap: 'wrap',
+                 justifyContent: 'space-between',
                }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-              <Clock size={20} color="#2BA8D8" />
-              <div>
-                <div style={{ fontWeight: 700, color: '#fff' }}>Est. 2014</div>
-                <div style={{ fontSize: '0.7rem', color: '#4A7A9B' }}>10+ Years Excellence</div>
+            {MODERN_STATS.map((stat, idx) => (
+              <div
+                key={stat.label}
+                onMouseEnter={() => setHoveredStat(idx)}
+                onMouseLeave={() => setHoveredStat(null)}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 10,
+                  transition: 'transform 0.3s ease',
+                  transform: hoveredStat === idx ? 'translateY(-2px)' : 'translateY(0)',
+                  cursor: 'pointer',
+                }}
+              >
+                <stat.Icon size={18} color="#2BA8D8" />
+                <div>
+                  <div style={{ fontWeight: 700, color: '#fff', fontSize: '0.85rem' }}>
+                    {stat.prefix && <span style={{ fontSize: '0.7rem', marginRight: 2 }}>{stat.prefix}</span>}
+                    {stat.displayValue || stat.value}
+                    {stat.suffix}
+                  </div>
+                  <div style={{ fontSize: '0.6rem', color: '#4A7A9B', letterSpacing: '0.05em' }}>{stat.label}</div>
+                </div>
               </div>
-            </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-              <Award size={20} color="#2BA8D8" />
-              <div>
-                <div style={{ fontWeight: 700, color: '#fff' }}>100% Black-Owned</div>
-                <div style={{ fontSize: '0.7rem', color: '#4A7A9B' }}>BEE Level 1</div>
-              </div>
-            </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-              <Shield size={20} color="#2BA8D8" />
-              <div>
-                <div style={{ fontWeight: 700, color: '#fff' }}>PsIRA Registered</div>
-                <div style={{ fontSize: '0.7rem', color: '#4A7A9B' }}>Fully Compliant</div>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
       </div>
 
-      {/* Add animation keyframes */}
+      {/* Animation Keyframes */}
       <style>{`
         @keyframes float {
           0%, 100% { transform: translateY(0) translateX(0); }
@@ -333,9 +487,9 @@ export default function Hero() {
           50% { transform: scale(1.1); opacity: 0.8; }
         }
         
-        @keyframes underlineExpand {
-          from { width: 0%; opacity: 0; }
-          to { width: 100%; opacity: 1; }
+        @keyframes blink {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0; }
         }
         
         @keyframes fadeSlideUp {
